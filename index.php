@@ -28,6 +28,7 @@ include"navbar.php"
        <th scope="col">Image</th>
        <th scope="col">Name</th>
        <th scope="col">Description</th>
+       <th scope="col">Action</th>
 
    </tr>
    </thead>
@@ -42,14 +43,44 @@ include"navbar.php"
             </td>
             <td>{$row['name']}</td>
             <td>{$row['description']}</td>
-            
+            <td>
+                       
+                        <a href='#' class='btn btn-danger btnDelete' data-id='{$row['id']}'>Видалити</a>
+                        <a href='/Edit.php?Id='{$row['id']}' class='btn btn-success' >Редагувати</a>
+                    </td>
         </tr>";
     }
     ?>
     </tbody>
 </table>
 </div>
-<script src="js/bootstrap.bundle.min.js"></script>
+<?php include "modal_delete.php"; ?>
 
+<script src="js/bootstrap.bundle.min.js"></script>
+<script src="/js/axios.min.js"></script>
+
+<script>
+    var myModal = new bootstrap.Modal(document.getElementById("myModal"), {});
+    window.addEventListener('load', function () {
+        const list = document.querySelectorAll(".btnDelete");
+        let removeId=0; //id element delete
+        for (let i = 0; i < list.length; i++) {
+            list[i].addEventListener("click", function (e) {
+                e.preventDefault();
+                removeId = e.currentTarget.dataset.id;
+                myModal.show();
+            });
+        }
+        //Нажали кнопку видалити
+        document.querySelector("#btnDeleteNews").addEventListener("click", function() {
+            const formData = new FormData();
+            formData.append("id", removeId);
+            axios.post("/delete.php", formData)
+                .then(resp => {
+                    location.reload();
+                });
+        });
+    });
+</script>
 </body>
 </html>
