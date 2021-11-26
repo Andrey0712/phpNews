@@ -8,6 +8,7 @@
 
     <title>ТСН</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.css">
 </head>
 <body>
 <?php
@@ -15,7 +16,7 @@ include"navbar.php"
 ?>
 
 <div class="container">
-    <h1 align="center">Avtodor News</h1>
+    <h1 class="text-center">Avtodor News</h1>
     <?php
     include "connection_database.php";
     $sql = "SELECT * FROM news";
@@ -46,21 +47,25 @@ include"navbar.php"
             <td>
                        
                         <a href='#' class='btn btn-danger btnDelete' data-id='{$row['id']}'>Видалити</a>
-                        <a href='/Edit.php?Id='{$row['id']}' class='btn btn-success' >Редагувати</a>
+                         <a href='/update.php?id=${row['id']}' class='btn btn-success' ><i class='fa fa-edit'></i> </a>
                     </td>
         </tr>";
     }
     ?>
+
     </tbody>
 </table>
 </div>
 <?php include "modal_delete.php"; ?>
+
+
 
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="/js/axios.min.js"></script>
 
 <script>
     var myModal = new bootstrap.Modal(document.getElementById("myModal"), {});
+
     window.addEventListener('load', function () {
         const list = document.querySelectorAll(".btnDelete");
         let removeId=0; //id element delete
@@ -72,7 +77,8 @@ include"navbar.php"
             });
         }
         //Нажали кнопку видалити
-        document.querySelector("#btnDeleteNews").addEventListener("click", function() {
+        document.querySelector("#btnDeleteNews").addEventListener("click", function()
+        {
             const formData = new FormData();
             formData.append("id", removeId);
             axios.post("/delete.php", formData)
@@ -81,6 +87,8 @@ include"navbar.php"
                 });
         });
     });
+
+
 </script>
 </body>
 </html>
